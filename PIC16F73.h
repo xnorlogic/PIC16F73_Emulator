@@ -1,3 +1,8 @@
+/*
+STATUS Register implemented 8/23/2017 ... AndyR.
+
+
+*/
 #include <stdio.h>
 #include <stdlib.h>
 

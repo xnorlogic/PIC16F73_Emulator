@@ -61,7 +61,7 @@ ANDWF
 	-------------------
 	
 */
-byte ADDWF(struct PIC16F73 *Emulator, word W1, word W2){
+byte ADDLW(struct PIC16F73 *Emulator, word W1, word W2){
   //CODE here
 }
 //*******************************************************

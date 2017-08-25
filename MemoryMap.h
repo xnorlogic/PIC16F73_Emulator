@@ -1,0 +1,33 @@
+#define DATA_MEMORY 	512
+#define PROGRAM_MEMORY 	4095
+
+//Special function REGISTERS Address
+#define TMR0_REG 		0x01
+#define PCL_REG 		0x02
+#define STATUS_REG 		0x03
+#define FSR_REG 		0x04
+#define PORTA_REG 		0x05
+#define PORTB_REG 		0x06
+#define PORTC_REG 		0x07
+#define PCLATH_REG 		0x0A
+#define INTCON_REG 		0x0B
+#define PIR1_REG 		0x0C
+#define PIR2_REG 		0x0D
+#define TMR1L_REG 		0x0E
+#define TMR1H_REG 		0x0F
+#define T1CON_REG 		0x10
+#define TMR2_REG 		0x11
+#define T2CON_REG 		0x12
+#define SSPBUF_REG 		0x13
+#define SSPCON_REG 		0x14
+#define CCPR1L_REG 		0x15
+#define CCPR1H_REG 		0x16
+#define CCP1CON_REG 	0x17
+#define RCSTA_REG 		0x18
+#define TXREG_REG 		0x19
+#define RCREG_REG 		0x1A
+#define CCPR2L_REG 		0x1B
+#define CCPR2H_REG 		0x1C
+#define CCP2CON_REG 	0x1D
+#define ADRES_REG 		0x1E
+#define ADCON0_REG 		0x1F

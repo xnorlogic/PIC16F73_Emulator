@@ -1,109 +1,93 @@
-/*
-STATUS Register implemented 8/23/2017 ... AndyR.
+#ifndef _PIC16F73_H
 
+#define DATA_MEMORY 	512
+#define PROGRAM_MEMORY 	4095
 
-*/
-#include <stdio.h>
-#include <stdlib.h>
-
-#define BANK_ZERO_GENPURPOSE 512
-#define PROGRAM_MEMORY 4095
-#define STATUS_REG 0x03
+//Special function REGISTERS Address
+#define TMR0_REG 		0x01
+#define PCL_REG 		0x02
+#define STATUS_REG 		0x03
+#define FSR_REG 		0x04
+#define PORTA_REG 		0x05
+#define PORTB_REG 		0x06
+#define PORTC_REG 		0x07
+#define PCLATH_REG 		0x0A
+#define INTCON_REG 		0x0B
+#define PIR1_REG 		0x0C
+#define PIR2_REG 		0x0D
+#define TMR1L_REG 		0x0E
+#define TMR1H_REG 		0x0F
+#define T1CON_REG 		0x10
+#define TMR2_REG 		0x11
+#define T2CON_REG 		0x12
+#define SSPBUF_REG 		0x13
+#define SSPCON_REG 		0x14
+#define CCPR1L_REG 		0x15
+#define CCPR1H_REG 		0x16
+#define CCP1CON_REG 	0x17
+#define RCSTA_REG 		0x18
+#define TXREG_REG 		0x19
+#define RCREG_REG 		0x1A
+#define CCPR2L_REG 		0x1B
+#define CCPR2H_REG 		0x1C
+#define CCP2CON_REG 	0x1D
+#define ADRES_REG 		0x1E
+#define ADCON0_REG 		0x1F
 
 typedef unsigned char byte;  //8  bits
+
 typedef unsigned short word; //16 bits
 
-struct PIC16F73{
+typedef struct{
+	
 	byte f:7;   //file register --> 7  bits
 	byte W;     //W    register --> 8  bits
+	byte d:1;
 	word PC:13; //PC   register --> 13 bits
-	
-	//Status Register
-	byte STATUS;
-	byte RP0:1;
-	byte RP1:1;
-	byte IRP:1;
-	byte TO:1;
-	byte PD:1;
-	byte Z:1;
-	byte DC:1;
-	byte C:1;
+	byte k;
+	byte OPCODE:6;
 	 
 	byte* Data_Memory;
 	word* Program_Memory;
-};
+	
+}Emulator;
 
-//Memory allocation to emulate PIC16F73----------------------------------------
-void Memory_Allocation(struct PIC16F73 *Emulator){
-	//allocate the emulated data memory space of the PIC16F73 in host
-	Emulator->Data_Memory = (byte*) malloc(BANK_ZERO_GENPURPOSE * sizeof(byte));
-	//allocate the emulated program memory space of the PIC16F73 in host
-	Emulator->Program_Memory = (word*) malloc(PROGRAM_MEMORY * sizeof(word));
-	//-------------------------------------------------------------------------
-}
+typedef struct{
+	
+	byte BIT_0:1;
+	byte BIT_1:1;
+	byte BIT_2:1;
+	byte BIT_3:1;
+	byte BIT_4:1;
+	byte BIT_5:1;
+	byte BIT_6:1;
+	byte BIT_7:1;
+	
+}Special_Function_Register;
 
-void Memory_Free(struct PIC16F73 *Emulator){
-	//Free Memory
-	free(Emulator->Data_Memory);
-	free(Emulator->Program_Memory);
-}
+extern Emulator PIC16F73;
+extern Special_Function_Register STATUS;
 
-byte Carry (struct PIC16F73 *Emulator){
-	return (Emulator->STATUS >> 0) & 1;
-}
+word Data_Memory_Address(Emulator*, Special_Function_Register*);
 
-byte Digit_Carry (struct PIC16F73 *Emulator){
-	return (Emulator->STATUS >> 1) & 1;
-}
+void RegisterWrite(Emulator*, Special_Function_Register*, byte);
 
-byte Zero_bit (struct PIC16F73 *Emulator){
-	return (Emulator->STATUS >> 2) & 1;
-}
+void RegisterDisplay(Emulator*, Special_Function_Register*, byte , byte);
 
-byte Power_Down_bit (struct PIC16F73 *Emulator){
-	return (Emulator->STATUS >> 3) & 1;
-}
+void InitRegister(Special_Function_Register*, byte, byte, byte, byte, byte, byte, byte, byte);
 
-byte Time_Out_bit (struct PIC16F73 *Emulator){
-	return (Emulator->STATUS >> 4) & 1;
-}
+void Memory_Allocation(Emulator*);
 
+void Memory_Free(Emulator*);
+
+byte ADD(Special_Function_Register*, word, word);
+	
+word Instruction_Decode (Emulator*, byte, word);
+
+/*
 byte Bank_Select(struct PIC16F73 *Emulator){
 	return (((Emulator->STATUS >> 5) & 1) * 1) + (((Emulator->STATUS >> 6) & 1) * 2);
 }
+*/
 
-byte Bank_Select_IRP(struct PIC16F73 *Emulator){
-	return (Emulator->STATUS >> 7) & 1;
-}
-
-void REG_STATUS_DISP(struct PIC16F73 *Emulator){
-	printf("--STATUS REGISTER------------\n");
-	printf("Carry bit                = %x\n",Carry(Emulator));
-	printf("Digital Carry bit        = %x\n",Digit_Carry(Emulator));
-	printf("Zero bit                 = %x\n",Zero_bit(Emulator));
-	printf("Power Down bit           = %x\n",Power_Down_bit(Emulator));
-	printf("Time out bit             = %x\n",Time_Out_bit(Emulator));
-	printf("Bank Select              = %x\n",Bank_Select(Emulator));
-	printf("Bank Select IRP          = %x\n",Bank_Select_IRP(Emulator));
-	printf("-----------------------------\n");
-}
-
-void REG_STATUS_WRT(struct PIC16F73 *Emulator){
-	Emulator->STATUS = (Emulator->C * 1) + (Emulator->DC * 2) + (Emulator->Z * 4) + (Emulator->PD * 8) + (Emulator->TO * 16) + (Emulator->RP0 * 32) + (Emulator->RP1 * 64) + (Emulator->IRP * 128);
-}
-
-byte REG_STATUS_RD(struct PIC16F73 *Emulator){
-	return Emulator->STATUS;
-}
-
-word Data_Memory_Address(struct PIC16F73 *Emulator){
-	
-	word ADDRESS;
-	//Direct Addressing
-	ADDRESS = (((Emulator->STATUS >> 5) & 1) * 128) + (((Emulator->STATUS >> 6) & 1) * 256) + Emulator->f;
-	
-	//Indirect Addressing
-	//Implement code for indirect addressing here
-	
-	return ADDRESS;
-}
+#endif

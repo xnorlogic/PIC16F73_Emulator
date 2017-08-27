@@ -40,12 +40,12 @@ typedef unsigned short word; //16 bits
 
 typedef struct{
 	
-	byte f:7;   //file register --> 7  bits
-	byte W;     //W    register --> 8  bits
-	byte d:1;
-	word PC:13; //PC   register --> 13 bits
-	byte k;
-	byte OPCODE:6;
+	byte f		:7;		//file register --> 7  bits
+	word PC		:13;	//PC   register --> 13 bits
+	byte OPCODE	:6;		//opcode        --> 6 bits
+	byte d		:1;
+	byte k;				//k    register --> 8 bits
+	byte W;     		//W    register --> 8  bits
 	 
 	byte* Data_Memory;
 	word* Program_Memory;
@@ -67,21 +67,29 @@ typedef struct{
 
 extern Emulator PIC16F73;
 extern Special_Function_Register STATUS;
+/*
+Define other registers
+...
+...
+*/
 
+//Register control-------------------------------
 word Data_Memory_Address(Emulator*, Special_Function_Register*);
-
 void RegisterWrite(Emulator*, Special_Function_Register*, byte);
-
 void RegisterDisplay(Emulator*, Special_Function_Register*, byte , byte);
-
 void InitRegister(Special_Function_Register*, byte, byte, byte, byte, byte, byte, byte, byte);
 
+//Memory alocation-------------------------------
 void Memory_Allocation(Emulator*);
-
 void Memory_Free(Emulator*);
+//-----------------------------------------------
 
+//ALU--------------------------------------------
 byte ADD(Special_Function_Register*, word, word);
-	
+//byte SUB(Special_Function_Register*, word, word);
+
+
+//Instruction decode for PIC16F7X family---------
 word Instruction_Decode (Emulator*, byte, word);
 
 /*

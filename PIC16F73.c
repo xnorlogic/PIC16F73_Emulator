@@ -122,6 +122,18 @@ word Instruction_Decode (Emulator *PIC16F7x, byte OPCODE, word ProgCNT){
 				PC++; //One cycle operation
 			}
 		break;
+		
+		//GOTO
+		case 0x28: PC = (Emulator->OPCODE * 256) + (Emulator->OPCODE * 512) + (Emulator->OPCODE * 1024) + Emulator->k; break;
+		case 0x29: PC = (Emulator->OPCODE * 256) + (Emulator->OPCODE * 512) + (Emulator->OPCODE * 1024) + Emulator->k; break;
+		case 0x2A: PC = (Emulator->OPCODE * 256) + (Emulator->OPCODE * 512) + (Emulator->OPCODE * 1024) + Emulator->k; break;
+		case 0x2B: PC = (Emulator->OPCODE * 256) + (Emulator->OPCODE * 512) + (Emulator->OPCODE * 1024) + Emulator->k; break;
+		case 0x2C: PC = (Emulator->OPCODE * 256) + (Emulator->OPCODE * 512) + (Emulator->OPCODE * 1024) + Emulator->k; break;
+		case 0x2D: PC = (Emulator->OPCODE * 256) + (Emulator->OPCODE * 512) + (Emulator->OPCODE * 1024) + Emulator->k; break;
+		case 0x2E: PC = (Emulator->OPCODE * 256) + (Emulator->OPCODE * 512) + (Emulator->OPCODE * 1024) + Emulator->k; break;
+		case 0x2F: PC = (Emulator->OPCODE * 256) + (Emulator->OPCODE * 512) + (Emulator->OPCODE * 1024) + Emulator->k; break;
+		
+		default:break;
 	}
 	return PC;
 }

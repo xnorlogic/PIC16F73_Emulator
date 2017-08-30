@@ -21,9 +21,12 @@ int main()
 	
 	//Test Program----------------------------------------------------
 	//Load Program into program memory
-	PIC16F73.Program_Memory[0x0005] = 0x300a; 	//MOVLW 0x01
-	PIC16F73.Program_Memory[0x0006] = 0x00A1; 	//MOVWF 0x21
-	PIC16F73.Program_Memory[0x0007] = 0x07A1; 	//ADDWF 0x21, f
+	PIC16F73.Program_Memory[0x0005] = 0x0103; 	//CLRW
+	PIC16F73.Program_Memory[0x0006] = 0x3001; 	//MOVLW 0x01
+	PIC16F73.Program_Memory[0x0007] = 0x00FF; 	//MOVWF 0x21
+	PIC16F73.Program_Memory[0x0008] = 0x07FF; 	//ADDWF 0x21, f
+	PIC16F73.Program_Memory[0x0009] = 0x0000; 	//NOP
+	PIC16F73.Program_Memory[0x000a] = 0x2808; 	//GOTO 0x08
 	PIC16F73.PC = 0x0005;			        	//Send program
 												//counter to the 0x05
 												//program memory start

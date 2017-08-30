@@ -105,6 +105,7 @@ word Instruction_Decode (Emulator *PIC16F7x, byte OPCODE, word ProgCNT){
 
 		//MOVWF and NOP
 		case 0x00: 	
+			
 			if(PIC16F7x->d == 1){ //MOVWF 	
 				PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = PIC16F7x->W ;
 				PC++; //One cycle operation
@@ -112,6 +113,19 @@ word Instruction_Decode (Emulator *PIC16F7x, byte OPCODE, word ProgCNT){
 			else{
 				PC++; //One cycle operation NOP
 			}
+			
+			if(PIC16F7x->k == 0x64){ //CLRWDT
+			}
+			else if(PIC16F7x->k == 0x09){ //RETFIE
+			}
+			else if(PIC16F7x->k == 0x08){ //RETURN
+			}
+			else if(PIC16F7x->k == 0x63){ //SLEEP
+			}
+			else{
+				//Nothing
+			}
+			
 		break;
 
 		//CLRF and CLRW

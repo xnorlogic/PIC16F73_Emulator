@@ -21,7 +21,8 @@ int main()
 		Load_ProgramMEM_DLL(PCcnt, TestProgram[PCcnt-5]);
 	}
 	
-	PIC16F73.PC = 5;
+	//Load the PC couter----------------------------------------------
+	PIC16F73.PC = (RegisterRead(&PIC16F73, &PCLATH, PCLATH_REG) * 1000) + RegisterRead(&PIC16F73, &PCL, PCL_REG);
 	
 	//Emulation Core--------------------------------------------------
 	for (int CNT=0;CNT<10;CNT++){

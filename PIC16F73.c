@@ -174,6 +174,43 @@ word Instruction_Decode (Emulator *PIC16F7x, byte OPCODE, word ProgCNT){
 	return PC;
 }
 
+void Load_ProgramMEM_DLL(word PC, word Instruction){
+	PIC16F73.Program_Memory[PC] = Instruction;
+}
+void EmulatorCore_DLL(){
+		PIC16F73.OPCODE = (PIC16F73.Program_Memory[PIC16F73.PC] >> 8) & 255;
+		PIC16F73.d 		= (PIC16F73.Program_Memory[PIC16F73.PC] >> 7) & 1;
+		PIC16F73.f 		=  PIC16F73.Program_Memory[PIC16F73.PC] & 127;
+		PIC16F73.k 		=  PIC16F73.Program_Memory[PIC16F73.PC] & 255;
+		
+		PIC16F73.PC = Instruction_Decode(&PIC16F73, PIC16F73.OPCODE, PIC16F73.PC);
+}
+void Memcleanup_DLL(){
+	Memory_Free(&PIC16F73);
+}
+void Memalloc_DLL(){
+	Memory_Allocation(&PIC16F73);
+}
+void InitializeReg_DLL(){
+	//initializen Status Register 
+	InitRegister(&STATUS,0,0,0,1,1,0,0,0);
+	//Send data to Status Register in emulated mem location of PIC16F73
+	RegisterWrite(&PIC16F73, &STATUS, STATUS_REG);
+}
+
+//Export functions to DLL
+//Access to PORTA
+byte PORT_B_REG_Access(){
+	return		 	(PORTB.BIT_0 * 1) + 
+					(PORTB.BIT_1 * 2) + 
+					(PORTB.BIT_2 * 4) + 
+					(PORTB.BIT_3 * 8) + 
+					(PORTB.BIT_4 * 16) + 
+					(PORTB.BIT_5 * 32) + 
+					(PORTB.BIT_6 * 64) + 
+					(PORTB.BIT_7 * 128);
+}
+
 /*
 byte Bank_Select(struct PIC16F73 *Emulator){
 	return (((Emulator->STATUS >> 5) & 1) * 1) + (((Emulator->STATUS >> 6) & 1) * 2);

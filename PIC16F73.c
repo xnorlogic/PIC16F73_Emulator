@@ -5,6 +5,12 @@
 Emulator PIC16F73;
 Special_Function_Register STATUS;
 
+Special_Function_Register PCL;
+Special_Function_Register PCLATH; 
+
+Special_Function_Register PORTB;
+
+
 word Data_Memory_Address(Emulator *PIC16F7x, Special_Function_Register *Gen_Use_Register){
 	
 	word ADDRESS;
@@ -33,6 +39,11 @@ void RegisterWrite(Emulator *PIC16F7x, Special_Function_Register *Gen_Use_Regist
 	PIC16F7x->f = address;
 	PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = REGISTER;
 					
+}
+
+byte RegisterRead(Emulator *PIC16F7x, Special_Function_Register *Gen_Use_Register, byte address){
+	PIC16F7x->f = address;
+	return PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)];
 }
 
 void RegisterDisplay(Emulator *PIC16F7x, Special_Function_Register *Gen_Use_Register, byte BIT, byte address){
@@ -194,8 +205,13 @@ void Memalloc_DLL(){
 void InitializeReg_DLL(){
 	//initializen Status Register 
 	InitRegister(&STATUS,0,0,0,1,1,0,0,0);
-	//Send data to Status Register in emulated mem location of PIC16F73
 	RegisterWrite(&PIC16F73, &STATUS, STATUS_REG);
+	//initializen PCL Register
+	InitRegister(&PCL,1,0,1,0,0,0,0,0);
+	RegisterWrite(&PIC16F73, &PCL, PCL_REG);
+	//initializen PCLATH Register
+	InitRegister(&PCLATH,0,0,0,0,0,0,0,0);
+	RegisterWrite(&PIC16F73, &PCLATH, PCLATH_REG);
 }
 
 //Export functions to DLL

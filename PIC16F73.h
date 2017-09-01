@@ -67,6 +67,11 @@ typedef struct{
 
 extern Emulator PIC16F73;
 extern Special_Function_Register STATUS;
+
+extern Special_Function_Register PCL;
+extern Special_Function_Register PCLATH; 
+
+extern Special_Function_Register PORTB;
 /*
 Define other registers
 ...
@@ -76,6 +81,7 @@ Define other registers
 //Register control-------------------------------
 word Data_Memory_Address(Emulator*, Special_Function_Register*);
 void RegisterWrite(Emulator*, Special_Function_Register*, byte);
+byte RegisterRead(Emulator *, Special_Function_Register *, byte);
 void RegisterDisplay(Emulator*, Special_Function_Register*, byte , byte);
 void InitRegister(Special_Function_Register*, byte, byte, byte, byte, byte, byte, byte, byte);
 

@@ -92,6 +92,15 @@ byte ADD(Special_Function_Register*, word, word);
 //Instruction decode for PIC16F7X family---------
 word Instruction_Decode (Emulator*, byte, word);
 
+//Access points----------------------------------
+byte PORT_B_REG_Access();
+void Memalloc_DLL();
+void Memcleanup_DLL();
+void Load_ProgramMEM_DLL(word PC, word Instruction);
+void EmulatorCore_DLL();
+void InitializeReg_DLL();
+//-----------------------------------------------
+
 /*
 byte Bank_Select(struct PIC16F73 *Emulator){
 	return (((Emulator->STATUS >> 5) & 1) * 1) + (((Emulator->STATUS >> 6) & 1) * 2);

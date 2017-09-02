@@ -1,7 +1,8 @@
 #ifndef _PIC16F73_H
 
-#define DATA_MEMORY 	512
-#define PROGRAM_MEMORY 	4095
+#define DATA_MEMORY 				512
+#define PROGRAM_MEMORY 				4095
+#define PROGRAM_PHYSICAL_MEMORY 	8190
 
 //Special function REGISTERS Address
 #define TMR0_REG 		0x01
@@ -35,7 +36,6 @@
 #define ADCON0_REG 		0x1F
 
 typedef unsigned char byte;  //8  bits
-
 typedef unsigned short word; //16 bits
 
 typedef struct{
@@ -44,11 +44,14 @@ typedef struct{
 	word PC		:13;	//PC   register --> 13 bits
 	byte OPCODE	:6;		//opcode        --> 6 bits
 	byte d		:1;
+	byte b		:3;		//b    			--> 3 bits
 	byte k;				//k    register --> 8 bits
 	byte W;     		//W    register --> 8  bits
 	 
 	byte* Data_Memory;
 	word* Program_Memory;
+	
+	byte* Program_Physical_Memory;
 	
 }Emulator;
 
@@ -67,11 +70,10 @@ typedef struct{
 
 extern Emulator PIC16F73;
 extern Special_Function_Register STATUS;
-
 extern Special_Function_Register PCL;
 extern Special_Function_Register PCLATH; 
-
 extern Special_Function_Register PORTB;
+
 /*
 Define other registers
 ...
@@ -94,7 +96,6 @@ void Memory_Free(Emulator*);
 byte ADD(Special_Function_Register*, word, word);
 //byte SUB(Special_Function_Register*, word, word);
 
-
 //Instruction decode for PIC16F7X family---------
 word Instruction_Decode (Emulator*, byte, word);
 
@@ -102,7 +103,7 @@ word Instruction_Decode (Emulator*, byte, word);
 byte PORT_B_REG_Access();
 void Memalloc_DLL();
 void Memcleanup_DLL();
-void Load_ProgramMEM_DLL(word PC, word Instruction);
+void Load_ProgramMEM_DLL(word, byte, byte);
 void EmulatorCore_DLL();
 void InitializeReg_DLL();
 //-----------------------------------------------

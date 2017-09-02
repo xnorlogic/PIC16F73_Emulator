@@ -100,7 +100,7 @@ byte ADD(Special_Function_Register*, word, word);
 word Instruction_Decode (Emulator*, byte, word);
 
 //Access points----------------------------------
-byte PORT_B_REG_Access();
+__declspec(dllexport) extern byte PORT_B_REG_Access();
 void Memalloc_DLL();
 void Memcleanup_DLL();
 void Load_ProgramMEM_DLL(word, byte, byte);

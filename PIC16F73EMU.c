@@ -5,32 +5,40 @@
 int main()
 {	
 	
-	word TestProgram[] = {0x0103,0x3001,0x00FF,0x07FF,0x0000,0x2808};
-
+	byte MemLocation[] = {0x00,0x02,0x08,0x0a,0x10,0x20};
+	byte NumOfBytes[]  = {0x02,0x04,0x02,0x06,0x08,0x0c};
+	byte PhysicMem[]   = {0x05,0x28,0x00,0x34,0x00,0x34,0x10,0x28,0x83,0x16,0x86,0x01,0x83,0x12,0x86,0x01,0x03,0x01,0x00,0x00,0x10,0x28,0x03,0x01,0x01,0x30,0x86,0x00,0x86,0x07,0x00,0x00,0x13,0x28};
+	
+	byte COUNTER = 0;
+	
 	Memalloc_DLL();
 	InitializeReg_DLL();
 	
-	/*
-	for(int cnt=0;cnt<8;cnt++){
-		RegisterDisplay(&PIC16F73, &STATUS, cnt, STATUS_REG);
+	for(int cycle=0;cycle<sizeof(MemLocation);cycle++){
+		for (int aloc =0;aloc<NumOfBytes[cycle];aloc++){
+			
+			PIC16F73.Program_Physical_Memory[MemLocation[cycle] + aloc] = PhysicMem[COUNTER];
+			COUNTER++;
+			
+		}
 	}
-	*/
-	
-	//Load Program into memory
-	for(int PCcnt = 5;PCcnt<11;PCcnt++){
-		Load_ProgramMEM_DLL(PCcnt, TestProgram[PCcnt-5]);
+
+	for(int cycle=0;cycle<sizeof(MemLocation);cycle++){
+		//Load_ProgramMEM_DLL(<word: Memory address of program memory>, <byte: physical Memory address of program>, <byte: number of bytes>)
+		Load_ProgramMEM_DLL(MemLocation[cycle]/2, MemLocation[cycle], NumOfBytes[cycle]);
 	}
-	
+		
 	//Load the PC couter----------------------------------------------
 	PIC16F73.PC = (RegisterRead(&PIC16F73, &PCLATH, PCLATH_REG) * 1000) + RegisterRead(&PIC16F73, &PCL, PCL_REG);
 	
 	//Emulation Core--------------------------------------------------
-	for (int CNT=0;CNT<10;CNT++){
-	
-		printf("\nPC   = %x\n",PIC16F73.PC);
+	while(RegisterRead(&PIC16F73, &PORTB, PORTB_REG)<0xff){
 	
 		EmulatorCore_DLL();
 		
+		printf("PortB    = %x\n",RegisterRead(&PIC16F73, &PORTB, PORTB_REG));
+		
+		/*
 		printf("\n");
 		printf("f   = 0x%02x\n",PIC16F73.Data_Memory[Data_Memory_Address(&PIC16F73,&STATUS)]);
 		printf("W   = 0x%02x\n",PIC16F73.W);
@@ -38,9 +46,18 @@ int main()
 		printf("DC  = %x\n",STATUS.BIT_1);
 		printf("Z   = %x\n",STATUS.BIT_2);
 		printf("************************");
+		*/
 	
 	}
 	//------------------------------------------------------------------
+	
+	printf("\n---Registry summary---\n");
+	//Using export function for PotB
+	printf("PortB     = %x\n",PORT_B_REG_Access());
+	
+	printf("STATUS    = %x\n",RegisterRead(&PIC16F73, &STATUS, STATUS_REG));
+	printf("PCL       = %x\n",RegisterRead(&PIC16F73, &PCL, PCL_REG));
+	printf("PCLATH    = %x\n",RegisterRead(&PIC16F73, &PCLATH, PCLATH_REG));
 	
 	//Free memory for cleanup
 	Memcleanup_DLL();

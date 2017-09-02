@@ -4,10 +4,8 @@
 
 Emulator PIC16F73;
 Special_Function_Register STATUS;
-
 Special_Function_Register PCL;
 Special_Function_Register PCLATH; 
-
 Special_Function_Register PORTB;
 
 
@@ -76,12 +74,14 @@ void InitRegister(Special_Function_Register *Gen_Use_Register, byte b0, byte b1,
 	
 }
 
-//Memory allocation to emulate PIC16F73----------------------------------------
+//Memory allocation to emulate PIC16F73
 void Memory_Allocation(Emulator *PIC16F7x){
 	//allocate the emulated data memory space of the PIC16F73 in host
 	PIC16F7x->Data_Memory = (byte*) malloc(DATA_MEMORY * sizeof(byte));
 	//allocate the emulated program memory space of the PIC16F73 in host
 	PIC16F7x->Program_Memory = (word*) malloc(PROGRAM_MEMORY * sizeof(word));
+	//-------------------------------------------------------------------------
+	PIC16F7x->Program_Physical_Memory = (byte*) malloc(PROGRAM_PHYSICAL_MEMORY * sizeof(byte));
 	//-------------------------------------------------------------------------
 }
 
@@ -89,6 +89,7 @@ void Memory_Free(Emulator *PIC16F7x){
 	//Free Memory
 	free(PIC16F7x->Data_Memory);
 	free(PIC16F7x->Program_Memory);
+	free(PIC16F7x->Program_Physical_Memory);
 }
 
 byte ADD(Special_Function_Register *Gen_Use_Register, word W1, word W2){
@@ -179,22 +180,121 @@ word Instruction_Decode (Emulator *PIC16F7x, byte OPCODE, word ProgCNT){
 		case 0x2E: PC = (((PIC16F7x->OPCODE >> 0) & 1) * 1) + (((PIC16F7x->OPCODE >> 1) & 1) * 2) + (((PIC16F7x->OPCODE >> 0) & 1) * 4) + PIC16F7x->k; break;
 		case 0x2F: PC = (((PIC16F7x->OPCODE >> 0) & 1) * 1) + (((PIC16F7x->OPCODE >> 1) & 1) * 2) + (((PIC16F7x->OPCODE >> 0) & 1) * 4) + PIC16F7x->k; break;
 
+		//BCF
+		case 0x10:
+			if(PIC16F7x->d == 1){ //ADDWF save result in F
+					PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] ^ 2;
+					PC++; //One cycle operation
+				}
+				else{ //ADDWF save result in W
+					PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] ^ 1;
+					PC++; //One cycle operation
+				}
+		break;
+		
+		case 0x11:
+			if(PIC16F7x->d == 1){ //ADDWF save result in F
+					PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] ^ 8;
+					PC++; //One cycle operation
+				}
+				else{ //ADDWF save result in W
+					PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] ^ 4;
+					PC++; //One cycle operation
+				}
+		break;
+		
+		case 0x12:
+			if(PIC16F7x->d == 1){ //ADDWF save result in F
+					PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] ^ 32;
+					PC++; //One cycle operation
+				}
+				else{ //ADDWF save result in W
+					PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] ^ 16;
+					PC++; //One cycle operation
+				}
+		break;
+		
+		case 0x13:
+			if(PIC16F7x->d == 1){ //ADDWF save result in F
+					PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] ^ 128;
+					PC++; //One cycle operation
+				}
+				else{ //ADDWF save result in W
+					PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] ^ 64;
+					PC++; //One cycle operation
+				}
+		break;
+		
+		//BSF
+		case 0x14:
+			if(PIC16F7x->d == 1){ //ADDWF save result in F
+						PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] | 2;
+						PC++; //One cycle operation
+					}
+					else{ //ADDWF save result in W
+						PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] | 1;
+						PC++; //One cycle operation
+					}
+		break;
+		
+		case 0x15:
+			if(PIC16F7x->d == 1){ //ADDWF save result in F
+					PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] | 8;
+					PC++; //One cycle operation
+				}
+				else{ //ADDWF save result in W
+					PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] | 4;
+					PC++; //One cycle operation
+				}
+		break;
+		
+		case 0x16:
+			if(PIC16F7x->d == 1){ //ADDWF save result in F
+					PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] | 32;
+					PC++; //One cycle operation
+				}
+				else{ //ADDWF save result in W
+					PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] | 16;
+					PC++; //One cycle operation
+				}
+		break;
+		
+		case 0x17:
+			if(PIC16F7x->d == 1){ //ADDWF save result in F
+					PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] | 128;
+					PC++; //One cycle operation
+				}
+				else{ //ADDWF save result in W
+					PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] | 64;
+					PC++; //One cycle operation
+				}
+			
+		break;
+		
 		default: break;
 	}
 
 	return PC;
 }
 
-void Load_ProgramMEM_DLL(word PC, word Instruction){
-	PIC16F73.Program_Memory[PC] = Instruction;
+//Export functions to DLL
+void Load_ProgramMEM_DLL(word PC, byte n, byte NumOfBytes){
+	for(int cycle = 0; cycle <= NumOfBytes/2 ;cycle++){
+		PIC16F73.Program_Memory[PC] = (PIC16F73.Program_Physical_Memory[n + 1] * 0x100) + PIC16F73.Program_Physical_Memory[n];
+		n = n + 2;
+		PC++;
+	}
 }
 void EmulatorCore_DLL(){
+	
 		PIC16F73.OPCODE = (PIC16F73.Program_Memory[PIC16F73.PC] >> 8) & 255;
 		PIC16F73.d 		= (PIC16F73.Program_Memory[PIC16F73.PC] >> 7) & 1;
 		PIC16F73.f 		=  PIC16F73.Program_Memory[PIC16F73.PC] & 127;
 		PIC16F73.k 		=  PIC16F73.Program_Memory[PIC16F73.PC] & 255;
+		PIC16F73.b      =  PIC16F73.Program_Memory[PIC16F73.PC] >> 7 & 3;
 		
 		PIC16F73.PC = Instruction_Decode(&PIC16F73, PIC16F73.OPCODE, PIC16F73.PC);
+		
 }
 void Memcleanup_DLL(){
 	Memory_Free(&PIC16F73);
@@ -207,24 +307,16 @@ void InitializeReg_DLL(){
 	InitRegister(&STATUS,0,0,0,1,1,0,0,0);
 	RegisterWrite(&PIC16F73, &STATUS, STATUS_REG);
 	//initializen PCL Register
-	InitRegister(&PCL,1,0,1,0,0,0,0,0);
+	InitRegister(&PCL,0,0,0,0,0,0,0,0);
 	RegisterWrite(&PIC16F73, &PCL, PCL_REG);
 	//initializen PCLATH Register
 	InitRegister(&PCLATH,0,0,0,0,0,0,0,0);
 	RegisterWrite(&PIC16F73, &PCLATH, PCLATH_REG);
 }
 
-//Export functions to DLL
-//Access to PORTA
-byte PORT_B_REG_Access(){
-	return		 	(PORTB.BIT_0 * 1) + 
-					(PORTB.BIT_1 * 2) + 
-					(PORTB.BIT_2 * 4) + 
-					(PORTB.BIT_3 * 8) + 
-					(PORTB.BIT_4 * 16) + 
-					(PORTB.BIT_5 * 32) + 
-					(PORTB.BIT_6 * 64) + 
-					(PORTB.BIT_7 * 128);
+//Access to PORTB
+__declspec(dllexport) extern byte PORT_B_REG_Access(){
+	return	RegisterRead(&PIC16F73, &PORTB, PORTB_REG);
 }
 
 /*

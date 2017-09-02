@@ -315,7 +315,7 @@ void InitializeReg_DLL(){
 }
 
 //Access to PORTB
-__declspec(dllexport) extern byte PORT_B_REG_Access(){
+byte PORT_B_REG_Access(){
 	return	RegisterRead(&PIC16F73, &PORTB, PORTB_REG);
 }
 

@@ -92,6 +92,8 @@ void Memory_Allocation(Emulator*);
 void Memory_Free(Emulator*);
 //-----------------------------------------------
 
+void Load_ProgramMEM_DLL(word, byte, byte);
+
 //ALU--------------------------------------------
 byte ADD(Special_Function_Register*, word, word);
 //byte SUB(Special_Function_Register*, word, word);
@@ -101,11 +103,11 @@ word Instruction_Decode (Emulator*, byte, word);
 
 //Access points----------------------------------
 __declspec(dllexport) extern byte PORT_B_REG_Access();
-void Memalloc_DLL();
-void Memcleanup_DLL();
-void Load_ProgramMEM_DLL(word, byte, byte);
-void EmulatorCore_DLL();
-void InitializeReg_DLL();
+__declspec(dllexport) extern void Memalloc_DLL();
+__declspec(dllexport) extern void Memcleanup_DLL();
+__declspec(dllexport) extern void LoadProgram_DLL(int, byte, byte);
+__declspec(dllexport) extern void EmulatorCore_DLL();
+__declspec(dllexport) extern void InitializeReg_DLL();
 //-----------------------------------------------
 
 /*

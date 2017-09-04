@@ -73,6 +73,36 @@ extern Special_Function_Register PCL;
 extern Special_Function_Register PCLATH; 
 extern Special_Function_Register PORTB;
 
+extern Special_Function_Register SFR_TMR0_REG;
+//extern Special_Function_Register SFR_PCL_REG;
+//extern Special_Function_Register SFR_STATUS_REG;
+extern Special_Function_Register SFR_FSR_REG;
+extern Special_Function_Register SFR_PORTA_REG;
+//extern Special_Function_Register SFR_PORTB_REG;
+extern Special_Function_Register SFR_PORTC_REG;
+//extern Special_Function_Register SFR_PCLATH_REG;
+extern Special_Function_Register SFR_INTCON_REG;
+extern Special_Function_Register SFR_PIR1_REG;
+extern Special_Function_Register SFR_PIR2_REG;
+extern Special_Function_Register SFR_TMR1L_REG;
+extern Special_Function_Register SFR_TMR1H_REG;
+extern Special_Function_Register SFR_T1CON_REG;
+extern Special_Function_Register SFR_TMR2_REG;
+extern Special_Function_Register SFR_T2CON_REG;
+extern Special_Function_Register SFR_SSPBUF_REG;
+extern Special_Function_Register SFR_SSPCON_REG;
+extern Special_Function_Register SFR_CCPR1L_REG;
+extern Special_Function_Register SFR_CCPR1H_REG;
+extern Special_Function_Register SFR_CCP1CON_REG;
+extern Special_Function_Register SFR_RCSTA_REG;
+extern Special_Function_Register SFR_TXREG_REG;
+extern Special_Function_Register SFR_RCREG_REG;
+extern Special_Function_Register SFR_CCPR2L_REG;
+extern Special_Function_Register SFR_CCPR2H_REG;
+extern Special_Function_Register SFR_CCP2CON_REG;
+extern Special_Function_Register SFR_ADRES_REG;
+extern Special_Function_Register SFR_ADCON0_REG;
+
 /*
 Define other registers
 ...
@@ -98,12 +128,41 @@ word Instruction_Decode (Emulator*, byte, word);
 
 //Access points*******************************************************************************
 //access points to the emulator to develop emulator shell
-__declspec(dllexport) extern byte PORT_B_REG_Access();
 __declspec(dllexport) extern void Memalloc_DLL();
 __declspec(dllexport) extern void Memcleanup_DLL();
 __declspec(dllexport) extern void LoadProgram_DLL(int, byte [], byte [], byte []);
 __declspec(dllexport) extern void EmulatorCore_DLL();
 __declspec(dllexport) extern void InitializeReg_DLL();
+
+__declspec(dllexport) extern byte TMR0_REG_Access();
+__declspec(dllexport) extern byte PCL_REG_Access();
+__declspec(dllexport) extern byte STATUS_REG_Access();
+__declspec(dllexport) extern byte FSR_REG_Access();
+__declspec(dllexport) extern byte PORTA_REG_Access();
+__declspec(dllexport) extern byte PORTB_REG_Access();
+__declspec(dllexport) extern byte PORTC_REG_Access();
+__declspec(dllexport) extern byte PCLATH_REG_Access();
+__declspec(dllexport) extern byte INTCON_REG_Access();
+__declspec(dllexport) extern byte PIR1_REG_Access();
+__declspec(dllexport) extern byte PIR2_REG_Access();
+__declspec(dllexport) extern byte TMR1L_REG_Access();
+__declspec(dllexport) extern byte TMR1H_REG_Access();
+__declspec(dllexport) extern byte T1CON_REG_Access();
+__declspec(dllexport) extern byte TMR2_REG_Access();
+__declspec(dllexport) extern byte T2CON_REG_Access();
+__declspec(dllexport) extern byte SSPBUF_REG_Access();
+__declspec(dllexport) extern byte SSPCON_REG_Access();
+__declspec(dllexport) extern byte CCPR1L_REG_Access();
+__declspec(dllexport) extern byte CCPR1H_REG_Access();
+__declspec(dllexport) extern byte CCP1CON_REG_Access();
+__declspec(dllexport) extern byte RCSTA_REG_Access();
+__declspec(dllexport) extern byte TXREG_REG_Access();
+__declspec(dllexport) extern byte RCREG_REG_Access();
+__declspec(dllexport) extern byte CCPR2L_REG_Access();
+__declspec(dllexport) extern byte CCPR2H_REG_Access();
+__declspec(dllexport) extern byte CCP2CON_REG_Access();
+__declspec(dllexport) extern byte ADRES_REG_Access();
+__declspec(dllexport) extern byte ADCON0_REG_Access();
 //********************************************************************************************
 
 /*

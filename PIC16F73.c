@@ -326,6 +326,8 @@ byte MemLoc;
 */
 void LoadProgram_DLL(int SIZE, byte MemLoc, byte NoB){
 
+	byte COUNTER;
+	
 	for(int cycle=0;cycle<SIZE;cycle++){
 		NoB =  NumOfBytes[cycle];
 		for (int aloc =0;aloc<NoB;aloc++){

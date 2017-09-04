@@ -34,7 +34,7 @@ int main()
 	PIC16F73.PC = (RegisterRead(&PIC16F73, &PCLATH, PCLATH_REG) * 1000) + RegisterRead(&PIC16F73, &PCL, PCL_REG);
 	
 	//Emulation Core--------------------------------------------------
-	while(RegisterRead(PORT_B_REG_Access()<0xff){
+	while(PORT_B_REG_Access()<0xff){
 	
 		EmulatorCore_DLL();
 		

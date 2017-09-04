@@ -278,13 +278,6 @@ word Instruction_Decode (Emulator *PIC16F7x, byte OPCODE, word ProgCNT){
 }
 
 //Export functions to DLL
-void Load_ProgramMEM_DLL(word PC, byte n, byte NumOfBytes){
-	for(int cycle = 0; cycle <= NumOfBytes/2 ;cycle++){
-		PIC16F73.Program_Memory[PC] = (PIC16F73.Program_Physical_Memory[n + 1] * 0x100) + PIC16F73.Program_Physical_Memory[n];
-		n = n + 2;
-		PC++;
-	}
-}
 void EmulatorCore_DLL(){
 	
 		PIC16F73.OPCODE = (PIC16F73.Program_Memory[PIC16F73.PC] >> 8) & 255;
@@ -317,6 +310,39 @@ void InitializeReg_DLL(){
 //Access to PORTB
 byte PORT_B_REG_Access(){
 	return	RegisterRead(&PIC16F73, &PORTB, PORTB_REG);
+}
+
+void Load_ProgramMEM(word PC, byte n, byte NumOfBytes){
+	for(int cycle = 0; cycle <= NumOfBytes/2 ;cycle++){
+		PIC16F73.Program_Memory[PC] = (PIC16F73.Program_Physical_Memory[n + 1] * 0x100) + PIC16F73.Program_Physical_Memory[n];
+		n = n + 2;
+		PC++;
+	}
+}
+/*
+int SIZE =  sizeof(MemLocation);
+byte NoB;
+byte MemLoc;
+*/
+void LoadProgram_DLL(int SIZE, byte MemLoc, byte NoB){
+
+	for(int cycle=0;cycle<SIZE;cycle++){
+		NoB =  NumOfBytes[cycle];
+		for (int aloc =0;aloc<NoB;aloc++){
+
+			PIC16F73.Program_Physical_Memory[MemLocation[cycle] + aloc] = PhysicMem[COUNTER];
+			COUNTER++;
+
+		}
+	}
+
+	for(int cycle=0;cycle<SIZE*2;cycle++){
+		MemLoc = MemLocation[cycle];
+		NoB =  NumOfBytes[cycle];
+		//Load_ProgramMEM(<word: Memory address of program memory>, <byte: physical Memory address of program>, <byte: number of bytes>)
+		Load_ProgramMEM(MemLoc/2, MemLoc, NoB);
+	}
+
 }
 
 /*

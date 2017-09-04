@@ -1,7 +1,5 @@
 language: c
 compiler: gcc
-    gcc -c -o PIC16F73.o PIC16F73.c
-    gcc -c -o ALU.o ALU.c
-    gcc -c -o PIC16F73EMU.o PIC16F73EMU.c
-    gcc -o PicEmulator PIC16F73.o ALU.o PIC16F73EMU.o
-    gcc -shared -o PIC16F73.lib PIC16F73.o ALU.o
+hellomake: PIC16f73EMU.c
+     gcc -o hellomake PIC16f73EMU.c -I.
+script: make

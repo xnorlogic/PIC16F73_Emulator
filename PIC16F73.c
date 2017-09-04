@@ -9,6 +9,36 @@ Special_Function_Register PCL;
 Special_Function_Register PCLATH; 
 Special_Function_Register PORTB;
 
+Special_Function_Register SFR_TMR0_REG;
+//extern Special_Function_Register SFR_PCL_REG;
+//extern Special_Function_Register SFR_STATUS_REG;
+Special_Function_Register SFR_FSR_REG;
+Special_Function_Register SFR_PORTA_REG;
+//extern Special_Function_Register SFR_PORTB_REG;
+Special_Function_Register SFR_PORTC_REG;
+//extern Special_Function_Register SFR_PCLATH_REG;
+Special_Function_Register SFR_INTCON_REG;
+Special_Function_Register SFR_PIR1_REG;
+Special_Function_Register SFR_PIR2_REG;
+Special_Function_Register SFR_TMR1L_REG;
+Special_Function_Register SFR_TMR1H_REG;
+Special_Function_Register SFR_T1CON_REG;
+Special_Function_Register SFR_TMR2_REG;
+Special_Function_Register SFR_T2CON_REG;
+Special_Function_Register SFR_SSPBUF_REG;
+Special_Function_Register SFR_SSPCON_REG;
+Special_Function_Register SFR_CCPR1L_REG;
+Special_Function_Register SFR_CCPR1H_REG;
+Special_Function_Register SFR_CCP1CON_REG;
+Special_Function_Register SFR_RCSTA_REG;
+Special_Function_Register SFR_TXREG_REG;
+Special_Function_Register SFR_RCREG_REG;
+Special_Function_Register SFR_CCPR2L_REG;
+Special_Function_Register SFR_CCPR2H_REG;
+Special_Function_Register SFR_CCP2CON_REG;
+Special_Function_Register SFR_ADRES_REG;
+Special_Function_Register SFR_ADCON0_REG;
+
 
 word Data_Memory_Address(Emulator *PIC16F7x, Special_Function_Register *Gen_Use_Register){
 	

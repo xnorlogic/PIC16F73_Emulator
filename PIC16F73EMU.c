@@ -20,8 +20,6 @@ int main()
 	//*************************************************************************************************
 	
 	int SIZE =  sizeof(MemLocation); 	//Size of the program
-	byte NoB;				//Number of bytes in the program line
-	byte MemLoc;				//Memory location of a program byte
 	
 	//Allocate the Memory for the Emulator
 	Memalloc_DLL();
@@ -30,7 +28,7 @@ int main()
 	InitializeReg_DLL();
 	
 	//Load Program into memory
-	LoadProgram_DLL(SIZE,MemLoc,NoB);
+	LoadProgram_DLL(SIZE,MemLocation,NumOfBytes,PhysicMem);
 		
 	//Load the PC couter
 	PIC16F73.PC = (RegisterRead(&PIC16F73, &PCLATH, PCLATH_REG) * 1000) + RegisterRead(&PIC16F73, &PCL, PCL_REG);

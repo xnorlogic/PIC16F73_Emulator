@@ -35,13 +35,13 @@ int main()
 	PIC16F73.PC = (RegisterRead(&PIC16F73, &PCLATH, PCLATH_REG) * 1000) + RegisterRead(&PIC16F73, &PCL, PCL_REG);
 	
 	//Emulation Core
-	while(PORT_B_REG_Access() < 0xff){	
+	while(PORTB_REG_Access() < 0xff){	
 		
 		//Step the Emulator
 		EmulatorCore_DLL();
 		
 		//Print PortB after step of the emulator
-		printf("PortB    = %x\n",PORT_B_REG_Access());
+		printf("PortB    = %x\n",PORTB_REG_Access());
 		
 		Cycle_Count++;
 		
@@ -52,7 +52,7 @@ int main()
 	printf("\n---Registry summary---\n");
 	
 	//Using export function for PotB
-	printf("PortB     = %x\n",PORT_B_REG_Access());
+	printf("PortB     = %x\n",PORTB_REG_Access());
 	
 	printf("STATUS    = %x\n",RegisterRead(&PIC16F73, &STATUS, STATUS_REG));
 	printf("PCL       = %x\n",RegisterRead(&PIC16F73, &PCL, PCL_REG));

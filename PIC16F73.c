@@ -291,10 +291,36 @@ void InitializeReg_DLL(){
 	RegisterWrite(&PIC16F73, &PCLATH, PCLATH_REG);
 }
 
-//Access to PORTB
-byte PORT_B_REG_Access(){
-	return	RegisterRead(&PIC16F73, &PORTB, PORTB_REG);
-}
+byte PORTB_REG_Access(){ return	RegisterRead(&PIC16F73, &PORTB, PORTB_REG);	}
+byte TMR0_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_TMR0_REG,TMR0_REG); }
+//byte PCL_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_PCL_REG,PCL_REG); }
+//byte STATUS_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_STATUS_REG,STATUS_REG); }
+byte FSR_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_FSR_REG,FSR_REG); }
+byte PORTA_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_PORTA_REG,PORTA_REG); }
+//byte PORTB_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_PORTB_REG,PORTB_REG); }
+byte PORTC_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_PORTC_REG,PORTC_REG); }
+//byte PCLATH_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_PCLATH_REG,PCLATH_REG); }
+byte INTCON_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_INTCON_REG,INTCON_REG); }
+byte PIR1_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_PIR1_REG,PIR1_REG); }
+byte PIR2_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_PIR2_REG,PIR2_REG); }
+byte TMR1L_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_TMR1L_REG,TMR1L_REG); }
+byte TMR1H_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_TMR1H_REG,TMR1H_REG); }
+byte T1CON_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_T1CON_REG,T1CON_REG); }
+byte TMR2_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_TMR2_REG,TMR2_REG); }
+byte T2CON_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_T2CON_REG,T2CON_REG); }
+byte SSPBUF_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_SSPBUF_REG,SSPBUF_REG); }
+byte SSPCON_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_SSPCON_REG,SSPCON_REG); }
+byte CCPR1L_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_CCPR1L_REG,CCPR1L_REG); }
+byte CCPR1H_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_CCPR1H_REG,CCPR1H_REG); }
+byte CCP1CON_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_CCP1CON_REG,CCP1CON_REG); }
+byte RCSTA_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_RCSTA_REG,RCSTA_REG); }
+byte TXREG_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_TXREG_REG,TXREG_REG); }
+byte RCREG_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_RCREG_REG,RCREG_REG); }
+byte CCPR2L_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_CCPR2L_REG,CCPR2L_REG); }
+byte CCPR2H_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_CCPR2H_REG,CCPR2H_REG); }
+byte CCP2CON_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_CCP2CON_REG,CCP2CON_REG); }
+byte ADRES_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_ADRES_REG,ADRES_REG); }
+byte ADCON0_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_ADCON0_REG,ADCON0_REG); }
 
 void Load_ProgramMEM(word PC, byte n, byte NumOfBytes){
 	for(int cycle = 0; cycle <= NumOfBytes/2 ;cycle++){

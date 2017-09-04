@@ -92,7 +92,7 @@ void Memory_Allocation(Emulator*);
 void Memory_Free(Emulator*);
 //-----------------------------------------------
 
-void Load_ProgramMEM_DLL(word, byte, byte);
+void Load_ProgramMEM(word, byte, byte);
 
 //ALU--------------------------------------------
 byte ADD(Special_Function_Register*, word, word);

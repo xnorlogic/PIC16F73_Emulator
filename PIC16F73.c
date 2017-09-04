@@ -319,18 +319,13 @@ void Load_ProgramMEM(word PC, byte n, byte NumOfBytes){
 		PC++;
 	}
 }
-/*
-int SIZE =  sizeof(MemLocation);
-byte NoB;
-byte MemLoc;
-*/
-void LoadProgram_DLL(int SIZE, byte MemLoc, byte NoB){
 
-	byte COUNTER;
+void LoadProgram_DLL(int SIZE, byte MemLocation[], byte NumOfBytes[], byte PhysicMem[]){
+
+	byte COUNTER = 0;
 	
 	for(int cycle=0;cycle<SIZE;cycle++){
-		NoB =  NumOfBytes[cycle];
-		for (int aloc =0;aloc<NoB;aloc++){
+		for (int aloc =0;aloc<NumOfBytes[cycle];aloc++){
 
 			PIC16F73.Program_Physical_Memory[MemLocation[cycle] + aloc] = PhysicMem[COUNTER];
 			COUNTER++;
@@ -338,11 +333,9 @@ void LoadProgram_DLL(int SIZE, byte MemLoc, byte NoB){
 		}
 	}
 
-	for(int cycle=0;cycle<SIZE*2;cycle++){
-		MemLoc = MemLocation[cycle];
-		NoB =  NumOfBytes[cycle];
+	for(int cycle=0;cycle<SIZE;cycle++){
 		//Load_ProgramMEM(<word: Memory address of program memory>, <byte: physical Memory address of program>, <byte: number of bytes>)
-		Load_ProgramMEM(MemLoc/2, MemLoc, NoB);
+		Load_ProgramMEM(MemLocation[cycle]/2, MemLocation[cycle], NumOfBytes[cycle]);
 	}
 
 }

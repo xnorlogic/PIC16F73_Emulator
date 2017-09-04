@@ -1,7 +1,7 @@
 #ifndef _PIC16F73_H
 
-#define DATA_MEMORY 				512
-#define PROGRAM_MEMORY 				4095
+#define DATA_MEMORY 			512
+#define PROGRAM_MEMORY 			4095
 #define PROGRAM_PHYSICAL_MEMORY 	8190
 
 //Special function REGISTERS Address
@@ -25,13 +25,13 @@
 #define SSPCON_REG 		0x14
 #define CCPR1L_REG 		0x15
 #define CCPR1H_REG 		0x16
-#define CCP1CON_REG 	0x17
+#define CCP1CON_REG 		0x17
 #define RCSTA_REG 		0x18
 #define TXREG_REG 		0x19
 #define RCREG_REG 		0x1A
 #define CCPR2L_REG 		0x1B
 #define CCPR2H_REG 		0x1C
-#define CCP2CON_REG 	0x1D
+#define CCP2CON_REG 		0x1D
 #define ADRES_REG 		0x1E
 #define ADCON0_REG 		0x1F
 
@@ -40,17 +40,16 @@ typedef unsigned short word; //16 bits
 
 typedef struct{
 	
-	byte f		:7;		//file register --> 7  bits
+	byte f		:7;	//file register --> 7  bits
 	word PC		:13;	//PC   register --> 13 bits
-	byte OPCODE	:6;		//opcode        --> 6 bits
+	byte OPCODE	:6;	//opcode        --> 6 bits
 	byte d		:1;
-	byte b		:3;		//b    			--> 3 bits
-	byte k;				//k    register --> 8 bits
+	byte b		:3;	//b    		--> 3 bits
+	byte k;			//k    register --> 8 bits
 	byte W;     		//W    register --> 8  bits
 	 
 	byte* Data_Memory;
 	word* Program_Memory;
-	
 	byte* Program_Physical_Memory;
 	
 }Emulator;
@@ -80,35 +79,41 @@ Define other registers
 ...
 */
 
-//Register control-------------------------------
+//Register control****************************************************************************
 word Data_Memory_Address(Emulator*, Special_Function_Register*);
 void RegisterWrite(Emulator*, Special_Function_Register*, byte);
 byte RegisterRead(Emulator *, Special_Function_Register *, byte);
 void RegisterDisplay(Emulator*, Special_Function_Register*, byte , byte);
 void InitRegister(Special_Function_Register*, byte, byte, byte, byte, byte, byte, byte, byte);
 
-//Memory alocation-------------------------------
+//Memory alocation****************************************************************************
 void Memory_Allocation(Emulator*);
 void Memory_Free(Emulator*);
-//-----------------------------------------------
 
+//Load into program memory********************************************************************
 void Load_ProgramMEM(word, byte, byte);
 
-//ALU--------------------------------------------
+//ALU*****************************************************************************************
 byte ADD(Special_Function_Register*, word, word);
 //byte SUB(Special_Function_Register*, word, word);
+/*
+ALU prototypes!!
 
-//Instruction decode for PIC16F7X family---------
+*/
+//********************************************************************************************
+
+//Instruction decode for PIC16F7X family******************************************************
 word Instruction_Decode (Emulator*, byte, word);
 
-//Access points----------------------------------
+//Access points*******************************************************************************
+//access points to the emulator to develop emulator shell
 __declspec(dllexport) extern byte PORT_B_REG_Access();
 __declspec(dllexport) extern void Memalloc_DLL();
 __declspec(dllexport) extern void Memcleanup_DLL();
-__declspec(dllexport) extern void LoadProgram_DLL(int, byte, byte);
+__declspec(dllexport) extern void LoadProgram_DLL(int, byte [], byte [], byte []);
 __declspec(dllexport) extern void EmulatorCore_DLL();
 __declspec(dllexport) extern void InitializeReg_DLL();
-//-----------------------------------------------
+//********************************************************************************************
 
 /*
 byte Bank_Select(struct PIC16F73 *Emulator){

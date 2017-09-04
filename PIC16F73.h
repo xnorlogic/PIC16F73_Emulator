@@ -93,15 +93,6 @@ void Memory_Free(Emulator*);
 //Load into program memory********************************************************************
 void Load_ProgramMEM(word, byte, byte);
 
-//ALU*****************************************************************************************
-byte ADD(Special_Function_Register*, word, word);
-//byte SUB(Special_Function_Register*, word, word);
-/*
-ALU prototypes!!
-
-*/
-//********************************************************************************************
-
 //Instruction decode for PIC16F7X family******************************************************
 word Instruction_Decode (Emulator*, byte, word);
 

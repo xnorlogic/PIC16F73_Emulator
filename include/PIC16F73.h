@@ -1,5 +1,3 @@
-#ifndef _PIC16F73_H
-
 #define DATA_MEMORY 			512
 #define PROGRAM_MEMORY 			4095
 #define PROGRAM_PHYSICAL_MEMORY 	8190
@@ -170,5 +168,3 @@ byte Bank_Select(struct PIC16F73 *Emulator){
 	return (((Emulator->STATUS >> 5) & 1) * 1) + (((Emulator->STATUS >> 6) & 1) * 2);
 }
 */
-
-#endif

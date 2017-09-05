@@ -126,12 +126,13 @@ word Instruction_Decode (Emulator*, byte, word);
 
 //Access points*******************************************************************************
 //access points to the emulator to develop emulator shell
-__declspec(dllexport) extern void Memalloc_DLL();
-__declspec(dllexport) extern void Memcleanup_DLL();
-__declspec(dllexport) extern void LoadProgram_DLL(int, byte [], byte [], byte []);
-__declspec(dllexport) extern void EmulatorCore_DLL();
-__declspec(dllexport) extern void InitializeReg_DLL();
+extern void Memalloc_DLL();
+extern void Memcleanup_DLL();
+extern void LoadProgram_DLL(int, byte [], byte [], byte []);
+extern void EmulatorCore_DLL();
+extern void InitializeReg_DLL();
 
+/*
 __declspec(dllexport) extern byte TMR0_REG_Access();
 __declspec(dllexport) extern byte PCL_REG_Access();
 __declspec(dllexport) extern byte STATUS_REG_Access();
@@ -161,6 +162,7 @@ __declspec(dllexport) extern byte CCPR2H_REG_Access();
 __declspec(dllexport) extern byte CCP2CON_REG_Access();
 __declspec(dllexport) extern byte ADRES_REG_Access();
 __declspec(dllexport) extern byte ADCON0_REG_Access();
+*/
 //********************************************************************************************
 
 /*

@@ -131,6 +131,7 @@ extern void Memcleanup_DLL();
 extern void LoadProgram_DLL(int, byte [], byte [], byte []);
 extern void EmulatorCore_DLL();
 extern void InitializeReg_DLL();
+extern byte PORTB_REG_Access();
 
 /*
 __declspec(dllexport) extern byte TMR0_REG_Access();

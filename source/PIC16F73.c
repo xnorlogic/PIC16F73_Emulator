@@ -111,7 +111,6 @@ void Memory_Allocation(Emulator *PIC16F7x){
 	PIC16F7x->Data_Memory = (byte*) malloc(DATA_MEMORY * sizeof(byte));
 	//allocate the emulated program memory space of the PIC16F73 in host
 	PIC16F7x->Program_Memory = (word*) malloc(PROGRAM_MEMORY * sizeof(word));
-	//-------------------------------------------------------------------------
 	PIC16F7x->Program_Physical_Memory = (byte*) malloc(PROGRAM_PHYSICAL_MEMORY * sizeof(byte));
 	//-------------------------------------------------------------------------
 }
@@ -365,9 +364,10 @@ void LoadProgram_DLL(int SIZE, byte MemLocation[], byte NumOfBytes[], byte Physi
 
 	byte COUNTER = 0;
 	int cycle = 0;
+	int aloc = 0;
 	
 	for(cycle=0;cycle<SIZE;cycle++){
-		for (int aloc =0;aloc<NumOfBytes[cycle];aloc++){
+		for (aloc =0;aloc<NumOfBytes[cycle];aloc++){
 
 			PIC16F73.Program_Physical_Memory[MemLocation[cycle] + aloc] = PhysicMem[COUNTER];
 			COUNTER++;

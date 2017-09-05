@@ -1,5 +1,3 @@
 language: c
 compiler: gcc
-hellomake: PIC16f73EMU.c
-     gcc -o hellomake PIC16f73EMU.c -I.
-script: make hellomake
+script: make

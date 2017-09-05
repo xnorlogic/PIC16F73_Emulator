@@ -1,5 +1,6 @@
 language: c
 compiler: gcc
 before_install:
-  sudo apt-get install -qq mingw32
+  - sudo apt-get -qq update
+  - sudo apt-get install -y mingw32
 script: make

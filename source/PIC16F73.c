@@ -353,7 +353,8 @@ byte ADRES_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_ADRES_REG,ADRES_RE
 byte ADCON0_REG_Access() {  return RegisterRead(&PIC16F73,&SFR_ADCON0_REG,ADCON0_REG); }
 
 void Load_ProgramMEM(word PC, byte n, byte NumOfBytes){
-	for(int cycle = 0; cycle <= NumOfBytes/2 ;cycle++){
+	int cycle = 0;
+	for(cycle = 0; cycle <= NumOfBytes/2 ;cycle++){
 		PIC16F73.Program_Memory[PC] = (PIC16F73.Program_Physical_Memory[n + 1] * 0x100) + PIC16F73.Program_Physical_Memory[n];
 		n = n + 2;
 		PC++;
@@ -363,8 +364,9 @@ void Load_ProgramMEM(word PC, byte n, byte NumOfBytes){
 void LoadProgram_DLL(int SIZE, byte MemLocation[], byte NumOfBytes[], byte PhysicMem[]){
 
 	byte COUNTER = 0;
+	int cycle = 0;
 	
-	for(int cycle=0;cycle<SIZE;cycle++){
+	for(cycle=0;cycle<SIZE;cycle++){
 		for (int aloc =0;aloc<NumOfBytes[cycle];aloc++){
 
 			PIC16F73.Program_Physical_Memory[MemLocation[cycle] + aloc] = PhysicMem[COUNTER];
@@ -373,7 +375,8 @@ void LoadProgram_DLL(int SIZE, byte MemLocation[], byte NumOfBytes[], byte Physi
 		}
 	}
 
-	for(int cycle=0;cycle<SIZE;cycle++){
+	cycle = 0;
+	for(cycle=0;cycle<SIZE;cycle++){
 		//Load_ProgramMEM(<word: Memory address of program memory>, <byte: physical Memory address of program>, <byte: number of bytes>)
 		Load_ProgramMEM(MemLocation[cycle]/2, MemLocation[cycle], NumOfBytes[cycle]);
 	}

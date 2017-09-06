@@ -182,6 +182,24 @@ word Instruction_Decode (Emulator *PIC16F7x, byte OPCODE, word ProgCNT){
 				PC++; //One cycle operation
 			}
 		break;
+			
+		//MOVF
+		case 0x08:
+			
+			if(PIC16F7x->d == 1){  	
+				PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)];
+				if (PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] == 0) STATUS.BIT_2 = 1;
+				else STATUS.BIT_2 = 0;
+				PC++; //One cycle operation
+			}
+			else{
+				PIC16F7x->W = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)];
+				if (PIC16F7x->W == 0) STATUS.BIT_2 = 1;
+				else STATUS.BIT_2 = 0;
+				PC++; //One cycle operation
+			}
+		
+		break;
 
 		//GOTO
 		case 0x28: PC = (((PIC16F7x->OPCODE >> 0) & 1) * 1) + (((PIC16F7x->OPCODE >> 1) & 1) * 2) + (((PIC16F7x->OPCODE >> 0) & 1) * 4) + PIC16F7x->k; break;

@@ -1,3 +1,10 @@
+//#define WINDOWS_MINGW_NET 
+#define DEVICE_PIC16F73
+
+typedef unsigned char byte;  //8  bits
+typedef unsigned short word; //16 bits
+
+#ifdef DEVICE_PIC16F73
 #define DATA_MEMORY 			512
 #define PROGRAM_MEMORY 			4095
 #define PROGRAM_PHYSICAL_MEMORY 	8190
@@ -32,9 +39,7 @@
 #define CCP2CON_REG 		0x1D
 #define ADRES_REG 		0x1E
 #define ADCON0_REG 		0x1F
-
-typedef unsigned char byte;  //8  bits
-typedef unsigned short word; //16 bits
+#endif
 
 typedef struct{
 	
@@ -66,19 +71,20 @@ typedef struct{
 }Special_Function_Register;
 
 extern Emulator PIC16F73;
+
+//extern Special_Function_Register SFR_STATUS_REG;
 extern Special_Function_Register STATUS;
+//extern Special_Function_Register SFR_PCL_REG;
 extern Special_Function_Register PCL;
+//extern Special_Function_Register SFR_PCLATH_REG;
 extern Special_Function_Register PCLATH; 
+//extern Special_Function_Register SFR_PORTB_REG;
 extern Special_Function_Register PORTB;
 
 extern Special_Function_Register SFR_TMR0_REG;
-//extern Special_Function_Register SFR_PCL_REG;
-//extern Special_Function_Register SFR_STATUS_REG;
 extern Special_Function_Register SFR_FSR_REG;
 extern Special_Function_Register SFR_PORTA_REG;
-//extern Special_Function_Register SFR_PORTB_REG;
 extern Special_Function_Register SFR_PORTC_REG;
-//extern Special_Function_Register SFR_PCLATH_REG;
 extern Special_Function_Register SFR_INTCON_REG;
 extern Special_Function_Register SFR_PIR1_REG;
 extern Special_Function_Register SFR_PIR2_REG;
@@ -101,39 +107,26 @@ extern Special_Function_Register SFR_CCP2CON_REG;
 extern Special_Function_Register SFR_ADRES_REG;
 extern Special_Function_Register SFR_ADCON0_REG;
 
-/*
-Define other registers
-...
-...
-*/
-
 //Register control****************************************************************************
 word Data_Memory_Address(Emulator*, Special_Function_Register*);
 void RegisterWrite(Emulator*, Special_Function_Register*, byte);
 byte RegisterRead(Emulator *, Special_Function_Register *, byte);
 void RegisterDisplay(Emulator*, Special_Function_Register*, byte , byte);
 void InitRegister(Special_Function_Register*, byte, byte, byte, byte, byte, byte, byte, byte);
-
 //Memory alocation****************************************************************************
 void Memory_Allocation(Emulator*);
 void Memory_Free(Emulator*);
-
 //Load into program memory********************************************************************
 void Load_ProgramMEM(word, byte, byte);
-
 //Instruction decode for PIC16F7X family******************************************************
 word Instruction_Decode (Emulator*, byte, word);
 
 //Access points*******************************************************************************
 //access points to the emulator to develop emulator shell
-extern void Memalloc_DLL();
-extern void Memcleanup_DLL();
-extern void LoadProgram_DLL(int, byte [], byte [], byte []);
-extern void EmulatorCore_DLL();
-extern void InitializeReg_DLL();
-extern byte PORTB_REG_Access();
 
-/*
+#ifdef WINDOWS_MINGW_NET
+
+//declaration for exporting to windows use... with export decoration
 __declspec(dllexport) extern byte TMR0_REG_Access();
 __declspec(dllexport) extern byte PCL_REG_Access();
 __declspec(dllexport) extern byte STATUS_REG_Access();
@@ -163,7 +156,46 @@ __declspec(dllexport) extern byte CCPR2H_REG_Access();
 __declspec(dllexport) extern byte CCP2CON_REG_Access();
 __declspec(dllexport) extern byte ADRES_REG_Access();
 __declspec(dllexport) extern byte ADCON0_REG_Access();
-*/
+
+#else
+
+extern void Memalloc_DLL();
+extern void Memcleanup_DLL();
+extern void LoadProgram_DLL(int, byte [], byte [], byte []);
+extern void EmulatorCore_DLL();
+extern void InitializeReg_DLL();
+
+extern byte TMR0_REG_Access();
+extern byte PCL_REG_Access();
+extern byte STATUS_REG_Access();
+extern byte FSR_REG_Access();
+extern byte PORTA_REG_Access();
+extern byte PORTB_REG_Access();
+extern byte PORTC_REG_Access();
+extern byte PCLATH_REG_Access();
+extern byte INTCON_REG_Access();
+extern byte PIR1_REG_Access();
+extern byte PIR2_REG_Access();
+extern byte TMR1L_REG_Access();
+extern byte TMR1H_REG_Access();
+extern byte T1CON_REG_Access();
+extern byte TMR2_REG_Access();
+extern byte T2CON_REG_Access();
+extern byte SSPBUF_REG_Access();
+extern byte SSPCON_REG_Access();
+extern byte CCPR1L_REG_Access();
+extern byte CCPR1H_REG_Access();
+extern byte CCP1CON_REG_Access();
+extern byte RCSTA_REG_Access();
+extern byte TXREG_REG_Access();
+extern byte RCREG_REG_Access();
+extern byte CCPR2L_REG_Access();
+extern byte CCPR2H_REG_Access();
+extern byte CCP2CON_REG_Access();
+extern byte ADRES_REG_Access();
+extern byte ADCON0_REG_Access();
+
+#endif
 //********************************************************************************************
 
 /*

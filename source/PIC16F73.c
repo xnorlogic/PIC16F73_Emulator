@@ -152,24 +152,6 @@ word Instruction_Decode (Emulator *PIC16F7x, byte OPCODE, word ProgCNT){
 			}
 			
 		break;
-		
-		//MOVF
-		case 0x08:
-			
-			if(PIC16F7x->d == 1){  	
-				PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)];
-				if (PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)] == 0) STATUS.BIT_2 = 1;
-				else STATUS.BIT_2 = 0;
-				PC++; //One cycle operation
-			}
-			else{
-				PIC16F7x->W = PIC16F7x->Data_Memory[Data_Memory_Address(PIC16F7x,&STATUS)];
-				if (PIC16F7x->W == 0) STATUS.BIT_2 = 1;
-				else STATUS.BIT_2 = 0;
-				PC++; //One cycle operation
-			}
-		
-		break;
 
 		//CLRF and CLRW
 		case 0x01: //CLRF and CLRW

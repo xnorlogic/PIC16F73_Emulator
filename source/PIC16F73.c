@@ -44,7 +44,7 @@ word Data_Memory_Address(Emulator *PIC16F7x, Special_Function_Register *Gen_Use_
 	
 	word ADDRESS;
 	//Direct Addressing
-	ADDRESS = (((Gen_Use_Register->BIT_5 >> 5) & 1) * 128) + (((Gen_Use_Register->BIT_6 >> 6) & 1) * 256) + PIC16F7x->f;
+	ADDRESS = (Gen_Use_Register->BIT_5 * 128) + (Gen_Use_Register->BIT_6 * 256) + PIC16F7x->f;
 	
 	//Indirect Addressing
 	//Implement code for indirect addressing here

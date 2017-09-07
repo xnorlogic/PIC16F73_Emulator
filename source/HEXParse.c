@@ -21,6 +21,9 @@ void vHEXParseInit(void)
  */
 void vLoadProgram(char * programName)
 {
+	/* iterators */
+	int i = 0;
+
 	/* file pointer */
 	FILE * hex = fopen(programName, READ_ONLY);
 
@@ -37,7 +40,7 @@ void vLoadProgram(char * programName)
 	sProgram rsTmpLine;
 
 	/* addres pointer used to calculate address for data*/
-	int *address;
+	int * address;
 
 	/* line counter */
 	T_UWORD programCnt = 0;
@@ -45,11 +48,11 @@ void vLoadProgram(char * programName)
 	while (fgets(line, sizeof(line), hex))
 	{
 		/* allocate memory for local pointers */
-		pyDataLenght = malloc(2);
-		pyMemAddr    = malloc(4);
-		pyData       = malloc(MAX_DATA_LENGHT * 2);
-		pyCheckSum   = malloc(2);
-		pySeparator  = malloc(2);
+		pyDataLenght = (char *)malloc(2);
+		pyMemAddr    = (char *)malloc(4);
+		pyCheckSum   = (char *)malloc(2);
+		pySeparator  = (char *)malloc(2);
+		pyData = (char *)malloc(MAX_DATA_LENGHT * 2);
 
 		/* clear rsTmpLine */
 		memset(&rsTmpLine, 0, sizeof(rsTmpLine));
@@ -79,7 +82,7 @@ void vLoadProgram(char * programName)
 		address = &pyData;
 		
 		/* loop throught al data */
-		for (int i = 0; i <= rsTmpLine.uyDataLenght; i++)
+		for (i = 0; i <= rsTmpLine.uyDataLenght; i++)
 		{
 			/* allocate memory for pyTempData */
 			pyTempData = malloc(2);
@@ -100,6 +103,15 @@ void vLoadProgram(char * programName)
 
 	/* close file */
 	fclose(hex);
+
+	address = NULL;
+
+	/* free memory */
+	free(pyDataLenght);
+	free(pyMemAddr);
+	free(pyCheckSum);
+	free(pySeparator);
+	free(pyTempData);
 }
 
 /*
@@ -114,14 +126,16 @@ void vLoadProgram(char * programName)
 void vValidateProgram()
 {
 	int lnCalcChecksum;
+	int i = 0;
+	int j = 0;
 
-	for (int i = 0; i <= MAX_PROG_LENGHT; i++)
+	for (i = 0; i <= MAX_PROG_LENGHT; i++)
 	{
 		lnCalcChecksum = rsProgram[i].uwMemAddr
 			           + rsProgram[i].uyDataLenght
 			           + rsProgram[i].uySeparator;
 
-		for (int j = 0; j <= rsProgram[i].uyDataLenght; j++)
+		for (j = 0; j <= rsProgram[i].uyDataLenght; j++)
 		{
 			lnCalcChecksum += rsProgram[i].uyaData[j];
 		}

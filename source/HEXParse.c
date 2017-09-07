@@ -22,7 +22,7 @@ void vHEXParseInit(void)
 void vLoadProgram(char * programName)
 {
 	/* file pointer */
-	FILE * hex = fopen(programName, "r");
+	FILE * hex = fopen(programName, READ_ONLY);
 
 	/* local variables */
 	char line[MAX_LINE_LENGHT];

@@ -18,6 +18,8 @@ typedef enum
 
 #define BASE_16 16
 
+#define READ_ONLY "r"
+
 typedef struct
 {
 	T_UBYTE uyDataLenght;

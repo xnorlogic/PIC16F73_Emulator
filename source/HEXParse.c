@@ -28,19 +28,19 @@ void vLoadProgram(char * programName)
 	FILE * hex = fopen(programName, READ_ONLY);
 
 	/* local variables */
-	char line[MAX_LINE_LENGHT];
-	char * pyDataLenght;
-	char * pyMemAddr;
-	char * pyData;
-	char * pyTempData;
-	char * pyCheckSum;
-	char * pySeparator;
+	T_UBYTE line[MAX_LINE_LENGHT];
+	T_UBYTE * pyDataLenght;
+	T_UBYTE * pyMemAddr;
+	T_UBYTE * pyData;
+	T_UBYTE * pyTempData;
+	T_UBYTE * pyCheckSum;
+	T_UBYTE * pySeparator;
 
 	/* temporary line structure*/
 	sProgram rsTmpLine;
 
 	/* addres pointer used to calculate address for data*/
-	int * address;
+	T_ULONG * address;
 
 	/* line counter */
 	T_UWORD programCnt = 0;
@@ -48,10 +48,10 @@ void vLoadProgram(char * programName)
 	while (fgets(line, sizeof(line), hex))
 	{
 		/* allocate memory for local pointers */
-		pyDataLenght = (char *)malloc(2);
-		pyMemAddr    = (char *)malloc(4);
-		pyCheckSum   = (char *)malloc(2);
-		pySeparator  = (char *)malloc(2);
+		pyDataLenght = (T_UBYTE *)malloc(2);
+		pyMemAddr    = (T_UBYTE *)malloc(4);
+		pyCheckSum   = (T_UBYTE *)malloc(2);
+		pySeparator  = (T_UBYTE *)malloc(2);
 		pyData = (char *)malloc(MAX_DATA_LENGHT * 2);
 
 		/* clear rsTmpLine */
@@ -79,6 +79,7 @@ void vLoadProgram(char * programName)
 
 		/* Data in element 9 to variable data length * 2 */
 		memcpy(pyData, &line[9], rsTmpLine.uyDataLenght * 2);
+		/* set address to scan */
 		address = &pyData;
 		
 		/* loop throught al data */
@@ -86,8 +87,8 @@ void vLoadProgram(char * programName)
 		{
 			/* allocate memory for pyTempData */
 			pyTempData = malloc(2);
-			/* copy data from address to pyTempData*/
-			memcpy(pyTempData, *address, 2);
+			/* copy data from address to pyTempData cast away type */
+			memcpy(pyTempData, *(T_ULONG *)address, 2);
 			/* convert ASCII to T_UBYTE */
 			rsTmpLine.uyaData[i] = (T_UBYTE)strtol(pyTempData, NULL, BASE_16);
 			/* next address */
@@ -104,14 +105,24 @@ void vLoadProgram(char * programName)
 	/* close file */
 	fclose(hex);
 
+	/* clear pointer */
 	address = NULL;
+	
+	/* clear memory */
+	memset(&pyDataLenght, 0, sizeof(pyDataLenght));
+	memset(&pyMemAddr	, 0, sizeof(pyMemAddr   ));
+	memset(&pyCheckSum	, 0, sizeof(pyCheckSum  ));
+	memset(&pySeparator	, 0, sizeof(pySeparator ));
+	memset(&pyTempData	, 0, sizeof(pyTempData  ));
+	memset(&pyData		, 0, sizeof(pyData      ));
 
 	/* free memory */
 	free(pyDataLenght);
-	free(pyMemAddr);
-	free(pyCheckSum);
-	free(pySeparator);
-	free(pyTempData);
+	free(pyMemAddr   );
+	free(pyCheckSum  );
+	free(pySeparator );
+	free(pyTempData  );
+	free(pyData      );
 }
 
 /*
@@ -125,7 +136,10 @@ void vLoadProgram(char * programName)
  */
 void vValidateProgram()
 {
+	/* calculated checksum */
 	int lnCalcChecksum;
+
+	/* iterators */
 	int i = 0;
 	int j = 0;
 
@@ -142,7 +156,7 @@ void vValidateProgram()
 
 		lnCalcChecksum = (-1 * lnCalcChecksum) & 0xFF;
 
-		if (lnCalcChecksum == rsProgram[i].uyChecksum)
+		if ((T_UBYTE)lnCalcChecksum == rsProgram[i].uyChecksum)
 		{
 			rsProgram[i].isValid = TRUE;
 		}

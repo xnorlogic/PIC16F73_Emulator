@@ -1,8 +1,7 @@
 //#define WINDOWS_MINGW_NET 
 #define DEVICE_PIC16F73
 
-typedef unsigned char byte;  //8  bits
-typedef unsigned short word; //16 bits
+#include "context.h"
 
 #ifdef DEVICE_PIC16F73
 #define DATA_MEMORY 			512
